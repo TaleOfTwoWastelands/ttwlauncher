@@ -1,0 +1,17 @@
+﻿<Controls:MetroWindow x:Class="com.taleoftwowastelands.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        Title="MainWindow" Height="500" Width="800" ResizeMode="NoResize" GlowBrush="{DynamicResource AccentColorBrush}" TitleCharacterCasing="Normal" WindowStartupLocation="CenterScreen" ShowTitleBar="False">
+    <Window.Background>
+        <VisualBrush TileMode="Tile" Viewbox="0,0,1,1">
+            <VisualBrush.Visual>
+                <Image Source="ttwbackground.png"></Image>
+            </VisualBrush.Visual>
+        </VisualBrush>
+    </Window.Background>
+    <Grid >
+        <Image HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Source="ttwlogo.png"/>
+    </Grid>
+
+</Controls:MetroWindow>

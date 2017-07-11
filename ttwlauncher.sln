@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTWLauncher", "TTWLauncher\TTWLauncher.csproj", "{1A42CD2F-6677-4286-B23F-39E8BD10770F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatchMaker", "PatchMaker\PatchMaker.csproj", "{34AA5B21-42E1-465C-9A9D-21085A674DAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sudo", "sudo\sudo.csproj", "{954A6970-DD4C-4245-8F7F-C689C6D5F0E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libBSA", "libbsa\libBSA.csproj", "{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A42CD2F-6677-4286-B23F-39E8BD10770F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A42CD2F-6677-4286-B23F-39E8BD10770F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A42CD2F-6677-4286-B23F-39E8BD10770F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A42CD2F-6677-4286-B23F-39E8BD10770F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34AA5B21-42E1-465C-9A9D-21085A674DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34AA5B21-42E1-465C-9A9D-21085A674DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34AA5B21-42E1-465C-9A9D-21085A674DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34AA5B21-42E1-465C-9A9D-21085A674DAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954A6970-DD4C-4245-8F7F-C689C6D5F0E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954A6970-DD4C-4245-8F7F-C689C6D5F0E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954A6970-DD4C-4245-8F7F-C689C6D5F0E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954A6970-DD4C-4245-8F7F-C689C6D5F0E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
