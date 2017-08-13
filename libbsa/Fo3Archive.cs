@@ -7,10 +7,11 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Xml;
 using System.Xml.Serialization;
+using org.foesmm.libBSA.Format;
 
-namespace org.foesmm.libbsa
+namespace org.foesmm.libBSA
 {
-    public class Fo3Archive : BSArchive, IBSArchive
+    public class Fo3Archive : BSA, IBSA
     {
         public Header HeaderData => _header;
 
@@ -84,9 +85,10 @@ namespace org.foesmm.libbsa
             }
         }
 
-        public void AddFile(string path, IBSAFile file)
+        public void AddFile(string path, Fo3File file)
         {
             var folder = _folders.Get(BSAAsset.CalculateHash(path), new Fo3Folder(path));
+            file.Path = folder.Name;
             folder.Files.Add(file);
         }
 
@@ -105,6 +107,21 @@ namespace org.foesmm.libbsa
             return res;
         }
 
+        public void BuildIndex()
+        {
+            IndexFullPath = new SortedDictionary<string, Fo3File>();
+            IndexFileName = new SortedDictionary<string, Fo3File>();
+            foreach (var folder in _folders.Values)
+            {
+                foreach (var file in folder.Files.Values)
+                {
+                    file.Path = folder.Name;
+                    IndexFullPath.Add(string.Format("{0}\\{1}", folder.Name, file.Name), file);
+                    IndexFileName[BitConverter.ToString(file.Checksum)] = file;
+                }
+            }
+        }
+
         public void RebuildHeader()
         {
             _header = new Header()
@@ -117,6 +134,8 @@ namespace org.foesmm.libbsa
                 ArchiveFlags = GenerateArchiveFlags(),
                 FileFlags = GenerateFilesFlag(),
             };
+            Flags = (UInt32)_header.ArchiveFlags;
+            FileFlags = (UInt32)_header.FileFlags;
         }
 
         public BSArchiveFlag GenerateArchiveFlags()
@@ -156,7 +175,7 @@ namespace org.foesmm.libbsa
 
             if (res == 0)
             {
-                res |= FileFlags.Misc;
+                res |= Format.FileFlags.Misc;
             }
 
             return res;
@@ -166,6 +185,7 @@ namespace org.foesmm.libbsa
 
         public bool ContainsFileNames => (_header.ArchiveFlags & BSArchiveFlag.FileNames) == BSArchiveFlag.FileNames;
 
+        [XmlIgnore]
         public bool IsCompressed
         {
             get => (_header.ArchiveFlags & BSArchiveFlag.Compressed) == BSArchiveFlag.Compressed;
@@ -178,6 +198,7 @@ namespace org.foesmm.libbsa
             }
         }
 
+        [XmlIgnore]
         public bool IsNamePrefixedToData
         {
             get => (_header.ArchiveFlags & BSArchiveFlag.PrefixFileNames) == BSArchiveFlag.PrefixFileNames;
@@ -190,16 +211,22 @@ namespace org.foesmm.libbsa
             }
         }
 
-        public BSAAssets<IBSAFolder> Folders => _folders;
         public BSArchiveFlag ArchiveFlags => _header.ArchiveFlags;
-        public FileFlags FileFlags => _header.FileFlags;
+
+        public Fo3Archive() : base()
+        {
+
+        }
 
         public Fo3Archive(string filename) : base(filename)
         {
             _header = Header.Read(Reader);
+            Flags = (UInt32)_header.ArchiveFlags;
+            FileFlags = (UInt32)_header.FileFlags;
+
             Extensions = new HashSet<string>();
 
-            if (System.IO.File.Exists(File + ".xml"))
+            if (File.Exists(Filename + ".xml"))
             {
                 return;
             }
@@ -207,7 +234,7 @@ namespace org.foesmm.libbsa
             UInt32 fileRecordsSize = _header.FolderCount + _header.FolderNameLength + 16 * _header.FileCount;
 
             var stopwatch = Stopwatch.StartNew();
-            var folders = new List<IBSAFolder>();
+            var folders = new List<Fo3Folder>();
             for (int folderIdx = 0; folderIdx < _header.FolderCount; folderIdx++)
             {
                 var folder = new Fo3Folder();
@@ -218,7 +245,7 @@ namespace org.foesmm.libbsa
                 folders.Add(folder);
             }
             stopwatch.Stop();
-            Console.WriteLine("Processed folders in {0}", stopwatch.Elapsed);
+            Debug.WriteLine("Processed folders in {0}", stopwatch.Elapsed);
 
             byte[] fileRecords = new byte[fileRecordsSize];
             Reader.Read(fileRecords, 0, fileRecords.Length);
@@ -259,14 +286,16 @@ namespace org.foesmm.libbsa
                     file.Name = fileNames[fileNameListPos++];
                     file.Checksum = MD5.Create().ComputeHash(file.GetData());
                     Extensions.Add(file.Name.Substring(file.Name.LastIndexOf('.') + 1));
-
+                    file.Path = folder.Name;
                     folder.Files.Add(file);
                 }
             }
             stopwatch.Stop();
-            Console.WriteLine("Enumerating all files ({0}) and folders took: {1}", _header.FileCount, stopwatch.Elapsed);
+            Debug.WriteLine("Enumerating all files ({0}) and folders took: {1}", _header.FileCount, stopwatch.Elapsed);
 
-            Console.WriteLine("Break");
+            WriteDescriptor();
+
+            Debug.WriteLine("Break");
         }
 
         public string GetFolderName(byte[] buffer, int offset)
@@ -275,27 +304,12 @@ namespace org.foesmm.libbsa
             return Encoding.UTF8.GetString(buffer, offset + 1, length - 1);
         }
 
-        public void WriteDescriptor()
-        {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.NewLineHandling = NewLineHandling.Entitize;
-            settings.CloseOutput = true;
-
-            using (var writer = XmlWriter.Create(new StreamWriter(File + ".xml"), settings))
-            {
-                var serializer = new XmlSerializer(typeof(Fo3Archive));
-                serializer.Serialize(writer, this);
-                writer.Flush();
-                writer.Close();
-            }
-        }
-
         public void Save()
         {
             var writer = new BinaryWriter(Reader.BaseStream);
             writer.BaseStream.Seek(0, SeekOrigin.Begin);
-            Signature.Write(writer);
+            writer.Write((UInt32)Signature);
+            writer.Write((UInt32)Version);
             _header.Write(writer);
 
             UInt32 fileRecordBlocksSize = _header.FolderCount + _header.FolderNameLength + _header.FileCount * 16;
@@ -310,10 +324,10 @@ namespace org.foesmm.libbsa
             writer.Flush();
             foreach (var folder in Folders.Values.OrderBy(f => f.NameHash))
             {
+                folder.Offset = currFileRecordBlockPos;
                 writer.Write(folder.NameHash);
                 writer.Write(folder.Files.Count);
                 writer.Write((UInt32)(startOfFileRecordBlock + currFileRecordBlockPos));
-                writer.Flush();
 
                 fileRecordBlocksWriter.Write((byte)(folder.Name.Length + 1));
                 fileRecordBlocksWriter.Write(folder.Name.ToCharArray());
@@ -361,8 +375,11 @@ namespace org.foesmm.libbsa
             }
 
             writer.Flush();
+            RecalculateChecksum();
 
             writer.Close();
+
+            WriteDescriptor();
         }
     }
 }

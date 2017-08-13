@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Xml.Serialization;
 
-namespace org.foesmm.libbsa
+namespace org.foesmm.libBSA
 {
     [DebuggerDisplay("{GetType()} Name = {Name}, NameHash = {NameHash}")]
     public abstract class BSAAsset
     {
+        [XmlAttribute("namehash")]
         public UInt64 NameHash { get; set; }
         protected string _name;
+        [XmlAttribute("name")]
         public string Name
         {
             get
@@ -22,7 +25,7 @@ namespace org.foesmm.libbsa
                 _name = value;
                 if (NameHash == 0)
                 {
-                    if (this is IBSAFolder)
+                    if (this is Fo3Folder)
                     {
                         NameHash = CalculateHash(value, null);
                     } else

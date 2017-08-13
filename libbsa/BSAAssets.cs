@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
-namespace org.foesmm.libbsa
+namespace org.foesmm.libBSA
 {
-    public class BSAAssets<TValue> : IDictionary<UInt64, TValue> 
-        where TValue: IBSAAsset
+    public class BSAAssets<TValue> : IDictionary<UInt64, TValue>, IXmlSerializable
+        where TValue : BSAAsset
     {
         protected SortedDictionary<UInt64, TValue> innerDictionary;
 
@@ -121,6 +124,38 @@ namespace org.foesmm.libbsa
         {
             Add(value);
             return value;
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            var serializer = new XmlSerializer(typeof(TValue));
+
+            bool wasEmpty = reader.IsEmptyElement;
+            reader.Read();
+
+            if (wasEmpty) return;
+
+            while (reader.NodeType != XmlNodeType.EndElement)
+            {
+                TValue value = (TValue)serializer.Deserialize(reader);
+                Add(value);
+            }
+            reader.ReadEndElement();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            var serializer = new XmlSerializer(typeof(TValue));
+
+            foreach (var item in Values)
+            {
+                serializer.Serialize(writer, item);
+            }
         }
     }
 }

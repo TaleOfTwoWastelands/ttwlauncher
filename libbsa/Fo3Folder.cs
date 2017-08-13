@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
-namespace org.foesmm.libbsa
+namespace org.foesmm.libBSA
 {
-    public class Fo3Folder : BSAAsset, IBSAFolder
+    [Serializable]
+    [XmlRoot("Folder")]
+    public class Fo3Folder : BSAAsset
     {
-        protected BSAAssets<IBSAFile> _files;
-
+        [XmlElement("Files")]
+        public BSAAssets<Fo3File> Files { get; set; }
         public UInt32 FileCount => Files.Capacity;
-
-        public BSAAssets<IBSAFile> Files => _files;
-
+        [XmlAttribute("offset")]
         public UInt32 Offset;
 
 
         public Fo3Folder()
         {
-            _files = new BSAAssets<IBSAFile>();
+            Files = new BSAAssets<Fo3File>();
         }
 
         public Fo3Folder(string path) : this()

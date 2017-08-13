@@ -7,11 +7,14 @@ using System.Security.Cryptography;
 using Ionic.Zlib;
 using System.Xml.Serialization;
 
-namespace org.foesmm.libbsa
+namespace org.foesmm.libBSA
 {
-    public class Fo3File : BSAAsset, IBSAFile
+    [Serializable]
+    [XmlRoot("File")]
+    public class Fo3File : BSAAsset
     {
         protected UInt32 _size;
+        [XmlAttribute("size")]
         public UInt32 Size
         {
             get
@@ -28,20 +31,32 @@ namespace org.foesmm.libbsa
                 _size = value;
             }
         }
+        [XmlAttribute("offset")]
         public UInt32 Offset;
 
+        [XmlIgnore]
         public FileInfo File { get; private set; }
-
+        [XmlIgnore]
         public bool Prefixed;
+        [XmlIgnore]
         public bool ArchiveCompressed;
+        [XmlIgnore]
+        public string Path { get; set; }
         private bool _invertCompression;
 
         public bool Compressed => ArchiveCompressed ^ _invertCompression;
 
+        [XmlIgnore]
         public BinaryReader Reader;
-        public byte[] Checksum;
+        [XmlAttribute("checksum", DataType = "hexBinary")]
+        public byte[] Checksum { get; set; }
 
         public byte[] GetData()
+        {
+            return GetData(Reader);
+        }
+
+        public byte[] GetData(BinaryReader reader)
         {
             if (File != null)
             {
@@ -51,19 +66,19 @@ namespace org.foesmm.libbsa
             byte[] buffer = new byte[Size];
             long outSize = buffer.Length;
 
-            Reader.BaseStream.Seek(Offset, SeekOrigin.Begin);
+            reader.BaseStream.Seek(Offset, SeekOrigin.Begin);
             if (Prefixed)
             {
-                var len = Reader.ReadByte();
+                var len = reader.ReadByte();
                 outSize -= len + 1;
-                Reader.BaseStream.Seek(len, SeekOrigin.Current);
+                reader.BaseStream.Seek(len, SeekOrigin.Current);
             }
             if (Compressed)
             {
-                outSize = Reader.ReadUInt32();
+                outSize = reader.ReadUInt32();
                 buffer = new byte[buffer.Length - 4];
             }
-            Reader.Read(buffer, 0, buffer.Length);
+            reader.Read(buffer, 0, buffer.Length);
 
             if (Compressed)
             {
