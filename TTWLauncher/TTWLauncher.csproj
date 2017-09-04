@@ -38,12 +38,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.6.0-alpha005\lib\net40\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.6.0-alpha009\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.6.0-alpha005\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.0-alpha009\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -107,6 +107,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ttwbackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\packages\helper\Helper\Helper.csproj">
+      <Project>{5bbc198d-cfa5-4912-be13-c87462822d05}</Project>
+      <Name>Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\packages\libBSA\libBSA\libBSA.csproj">
+      <Project>{f5cf3830-f5fb-43b9-8dce-d970757c7ebd}</Project>
+      <Name>libBSA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\packages\libESP\libESP\libESP.csproj">
+      <Project>{ca403dcf-8d46-48c0-9c47-5af0c214b18c}</Project>
+      <Name>libESP</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

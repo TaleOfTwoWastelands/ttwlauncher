@@ -7,15 +7,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTWLauncher", "TTWLauncher\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatchMaker", "PatchMaker\PatchMaker.csproj", "{34AA5B21-42E1-465C-9A9D-21085A674DAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libBSA", "..\libBSA\libBSA\libBSA.csproj", "{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04402405-D207-49EC-A155-45118984CE45}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.gitmodules = .gitmodules
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libBSA.Tests", "..\libBSA\libBSA.Tests\libBSA.Tests.csproj", "{0EB0A46B-5163-4EEC-B09D-5D1DA669164D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper", "packages\helper\Helper\Helper.csproj", "{5BBC198D-CFA5-4912-BE13-C87462822D05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libESP", "..\libESP\libESP\libESP.csproj", "{CA403DCF-8D46-48C0-9C47-5AF0C214B18C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libBSA", "packages\libBSA\libBSA\libBSA.csproj", "{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libESP.Tests", "..\libESP\libESP.Tests\libESP.Tests.csproj", "{E9ED6BBA-9588-460D-B5C7-81496F2FC184}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libBSA.Tests", "packages\libBSA\libBSA.Tests\libBSA.Tests.csproj", "{0EB0A46B-5163-4EEC-B09D-5D1DA669164D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper", "..\Helper\Helper\Helper.csproj", "{5BBC198D-CFA5-4912-BE13-C87462822D05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libESP", "packages\libESP\libESP\libESP.csproj", "{CA403DCF-8D46-48C0-9C47-5AF0C214B18C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libESP.Tests", "packages\libESP\libESP.Tests\libESP.Tests.csproj", "{E9ED6BBA-9588-460D-B5C7-81496F2FC184}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +39,10 @@ Global
 		{34AA5B21-42E1-465C-9A9D-21085A674DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34AA5B21-42E1-465C-9A9D-21085A674DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34AA5B21-42E1-465C-9A9D-21085A674DAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BBC198D-CFA5-4912-BE13-C87462822D05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BBC198D-CFA5-4912-BE13-C87462822D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BBC198D-CFA5-4912-BE13-C87462822D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BBC198D-CFA5-4912-BE13-C87462822D05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5CF3830-F5FB-43B9-8DCE-D970757C7EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +59,6 @@ Global
 		{E9ED6BBA-9588-460D-B5C7-81496F2FC184}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9ED6BBA-9588-460D-B5C7-81496F2FC184}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9ED6BBA-9588-460D-B5C7-81496F2FC184}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BBC198D-CFA5-4912-BE13-C87462822D05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BBC198D-CFA5-4912-BE13-C87462822D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BBC198D-CFA5-4912-BE13-C87462822D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BBC198D-CFA5-4912-BE13-C87462822D05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

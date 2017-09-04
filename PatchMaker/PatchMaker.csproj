@@ -71,11 +71,11 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libBSA\libBSA\libBSA.csproj">
+    <ProjectReference Include="..\packages\libBSA\libBSA\libBSA.csproj">
       <Project>{f5cf3830-f5fb-43b9-8dce-d970757c7ebd}</Project>
       <Name>libBSA</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\libESP\libESP\libESP.csproj">
+    <ProjectReference Include="..\packages\libESP\libESP\libESP.csproj">
       <Project>{ca403dcf-8d46-48c0-9c47-5af0c214b18c}</Project>
       <Name>libESP</Name>
     </ProjectReference>

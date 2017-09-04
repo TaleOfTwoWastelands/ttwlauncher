@@ -1,0 +1,9 @@
+[submodule "helper"]
+	path = packages/helper
+	url = https://github.com/foesmm/helper.git
+[submodule "libBSA"]
+	path = packages/libBSA
+	url = https://github.com/foesmm/libBSA.git
+[submodule "libESP"]
+	path = packages/libESP
+	url = https://github.com/foesmm/libESP.git
