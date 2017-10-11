@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Runtime.InteropServices;
 using NDesk.Options;
 
+
 namespace com.taleoftwowastelands.patchmaker
 {
     class Program
@@ -67,6 +68,11 @@ namespace com.taleoftwowastelands.patchmaker
 
             Settings settings = null;
 
+            // DEBUG SHIT STARTS HERE!
+
+            //DebugMethod();
+
+            // DEBUG SHIT ENDS HERE!
             if (!File.Exists(settingsFile))
             {
                 CreateDefaultSettings(settingsFile);
@@ -216,6 +222,16 @@ namespace com.taleoftwowastelands.patchmaker
 
             Console.ReadLine();
         }
+
+        /*
+        public static void DebugMethod()
+        {
+            Console.WriteLine("FNV Data Path: " + Installation.FNVDataPath());
+            Console.WriteLine("FO3 Data Path: " + Installation.FO3DataPath());
+            Console.WriteLine("Broken Steel = " + Installation.BrokenSteelCheck());
+            
+        }
+        */
 
         private static void CreatePatches(Recipe recipe, Settings settings, DirectoryInfo bsaDirectory)
         {
