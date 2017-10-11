@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
@@ -20,25 +19,26 @@ namespace com.taleoftwowastelands.patchmaker
         /// <summary>
         /// Returns the "Bethesda Softworks" Registry key
         /// </summary>
-        public RegistryKey GetBethesdaKey()
+        public static RegistryKey GetBethesdaKey()
         {
             // according to the last installer 64bit makes a difference so....
-            return (Registry.LocalMachine.OpenSubKey(Environment.Is64BitOperatingSystem ? "Software\\WOW6432Node" : "Software", RegistryKeyPermissionCheck.ReadWriteSubTree)).CreateSubKey("Bethesda Softworks", RegistryKeyPermissionCheck.ReadWriteSubTree);
+            return (Registry.LocalMachine.OpenSubKey(Environment.Is64BitOperatingSystem ? "Software\\WOW6432Node" : "Software", false)).OpenSubKey("Bethesda Softworks", false);
         }
 
         /// <summary>
         /// Uses GetBethesdaKey() to get the path for either Fallout New Vegas, or Fallout 3
         /// </summary>
         /// <param name="FNV">Set to true to use the method for Fallout New Vegas, false for Fallout 3</param>
-        public string PathFinder(bool FNV)
+        /// <returns>If FNV is true, returns the install path of Fallout New Vegas, if false, returns the install path of Fallout 3</returns>
+        public static string PathFinder(bool FNV)
         {
             // does this if being done for FNV
             if(FNV) {
-                return GetBethesdaKey().CreateSubKey("falloutnv").GetValue("installed path").ToString();
+                return GetBethesdaKey().OpenSubKey("falloutnv").GetValue("installed path").ToString();
             }
             else // does this if being done for fo3
             {
-                return GetBethesdaKey().CreateSubKey("fallout3").GetValue("installed path").ToString();
+                return GetBethesdaKey().OpenSubKey("fallout3").GetValue("installed path").ToString();
             }
         }
 
@@ -46,7 +46,7 @@ namespace com.taleoftwowastelands.patchmaker
         /// Checks if the user has NVSE installed, if they dont, it alerts them
         /// </summary>
         /// <returns>Returns true if the user has NVSE installed, false if they don't.</returns>
-        public bool NVSECheck()
+        public static bool NVSECheck()
         {
             if (!File.Exists(PathFinder(true) + "nvse_loader.exe"))
             {
@@ -59,12 +59,13 @@ namespace com.taleoftwowastelands.patchmaker
         }
 
         /// <summary>
-        /// Checks the version number of the NVSE loader
+        /// Checks the version number of the NVSE loader, now based on version number! :D 
         /// lastUpdateDate up to date as of 10/6/2017
         /// </summary>
         /// <returns>Returns true if NVSE is up to date *enough*</returns>
-        public bool NVSEVersCheck()
+        public static bool NVSEVersCheck()
         {
+            // old way V
             // long lastUpdateDate = 131421081690000000; // Friday, June 16, 2017 5:36:09pm
             // if (File.GetLastWriteTimeUtc(PathFinder(true) + "nvse_1_4.dll") < DateTime.FromFileTimeUtc(lastUpdateDate))
             
@@ -81,5 +82,122 @@ namespace com.taleoftwowastelands.patchmaker
 
             
         }
+
+        /// <summary>
+        /// Obtains/returns the data path of the FO3 installation as a string.... IN ONE LINE!
+        /// </summary>
+        /// <returns>Returns the data path of the FO3 installation as a string</returns>
+        public static string FO3DataPath()
+        {
+            return (PathFinder(false) + "Data\\");
+        }
+
+        // FO3 DLC CHECK HELPERS START HERE!
+
+        /// <summary>
+        /// Checks if Operation Anchorage is installed
+        /// </summary>
+        /// <returns>Whether or not Operation Anchorage is installed</returns>
+        public static bool OpAnchorageCheck()
+        {
+            return File.Exists(FO3DataPath() + "Anchorage.esm");
+        }
+
+        /// <summary>
+        /// Checks if The Pitt is installed
+        /// </summary>
+        /// <returns>Whether or not The Pitt is installed</returns>
+        public static bool PittCheck() // hehe, that sounds funny
+        {
+            return File.Exists(FO3DataPath() + "ThePitt.esm");
+        }
+
+        /// <summary>
+        /// Checks if Broken Steel is installed
+        /// </summary>
+        /// <returns>Whether or not Broken Steel is installed</returns>
+        public static bool BrokenSteelCheck()
+        {
+            return File.Exists(FO3DataPath() + "BrokenSteel.esm");
+        }
+
+        /// <summary>
+        /// Checks if Point Lookout is installed
+        /// </summary>
+        /// <returns>Whether or not Point Lookout is installed</returns>
+        public static bool PointLookoutCheck()
+        {
+            return File.Exists(FO3DataPath() + "PointLookout.esm");
+        }
+
+        /// <summary>
+        /// Checks if Mothership Zeta is installed
+        /// </summary>
+        /// <returns>Whether or not Mothership Zeta is installed</returns>
+        public static bool ZetaCheck()
+        {
+            return File.Exists(FO3DataPath() + "Zeta.esm");
+        }
+
+        // FO3 DLC CHECK HELPERS END HERE!
+
+        /// <summary>
+        /// Gets the Data path for Fallout New Vegas
+        /// </summary>
+        /// <returns>Data path of Fallout New Vegas as a string</returns>
+        public static string FNVDataPath()
+        {
+            return (PathFinder(true) + "Data\\");
+        }
+
+        // FNV DLC CHECK HELPERS START HERE!
+
+        /// <summary>
+        /// Checks if The bad DLC is installed
+        /// </summary>
+        /// <returns>Whether or not Dead Money is installed</returns>
+        public static bool DMCheck()
+        {
+            return File.Exists(FNVDataPath() + "DeadMoney.esm");
+        }
+
+        /// <summary>
+        /// Checks if GRA is installed
+        /// </summary>
+        /// <returns>Whether or not GRA is installed</returns>
+        public static bool GRACheck()
+        {
+            return File.Exists(FNVDataPath() + "GunRunnersArsenal.esm");
+        }
+
+        /// <summary>
+        /// Checks if Honest Hearts is installed
+        /// </summary>
+        /// <returns>Whether or not Honest Hearts is installed</returns>
+        public static bool HHCheck()
+        {
+            return File.Exists(FNVDataPath() + "HonestHearts.esm");
+        }
+
+        /// <summary>
+        /// Checks if Lonesome Road is installed
+        /// </summary>
+        /// <returns>Whether or not Lonesome Road is installed</returns>
+        public static bool LRCheck()
+        {
+            return File.Exists(FNVDataPath() + "LonesomeRoad.esm");
+        }
+
+        /// <summary>
+        /// Checks if Old World Blues is installed
+        /// </summary>
+        /// <returns>Whether or not Old World Blues is installed</returns>
+        public static bool OWBCheck()
+        {
+            return File.Exists(FNVDataPath() + "OldWorldBlues.esm");
+        }
+
+        // FNV DLC CHECK HELPERS END HERE!
+        
     }
 }

@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="bz2portable, Version=0.86.0.518, Culture=neutral, PublicKeyToken=43072770b20d93eb, processorArchitecture=MSIL">
       <HintPath>..\packages\bz2portable.1.0.1\lib\bz2portable.dll</HintPath>
@@ -46,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,6 +61,7 @@
     <Compile Include="ContentType.cs" />
     <Compile Include="FileInfoExtension.cs" />
     <Compile Include="FilePair.cs" />
+    <Compile Include="Installation.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Recipe.cs" />
@@ -65,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
