@@ -13,6 +13,7 @@ using deltaq;
 using System.Security.Cryptography;
 using System.Runtime.InteropServices;
 using NDesk.Options;
+using System.Windows.Forms;
 
 
 namespace com.taleoftwowastelands.patchmaker
@@ -73,6 +74,16 @@ namespace com.taleoftwowastelands.patchmaker
             //DebugMethod();
 
             // DEBUG SHIT ENDS HERE!
+
+            if (!Installation.PreInstallationCheck())
+            {
+                DialogResult result = MessageBox.Show("Looks like you dont have everything you need to install TTW, Make sure you have NVSE installed and up to date, and all the DLC for FNV AND FO3!", "Uh oh! Something isn't right!", MessageBoxButtons.OK);
+                if (!result.Equals(DialogResult.None))
+                {
+                    Application.Exit();
+                }
+            }
+
             if (!File.Exists(settingsFile))
             {
                 CreateDefaultSettings(settingsFile);

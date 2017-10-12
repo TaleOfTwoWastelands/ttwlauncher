@@ -139,6 +139,15 @@ namespace com.taleoftwowastelands.patchmaker
             return File.Exists(FO3DataPath() + "Zeta.esm");
         }
 
+        /// <summary>
+        /// Checks if all the FO3 DLC is installed
+        /// </summary>
+        /// <returns>Whether or not all the FO3 DLC is installed</returns>
+        public static bool FO3AllDLCCheck()
+        {
+            return OpAnchorageCheck() && PittCheck() && BrokenSteelCheck() && PointLookoutCheck() && ZetaCheck();
+        }
+
         // FO3 DLC CHECK HELPERS END HERE!
 
         /// <summary>
@@ -196,8 +205,26 @@ namespace com.taleoftwowastelands.patchmaker
         {
             return File.Exists(FNVDataPath() + "OldWorldBlues.esm");
         }
+        
+        /// <summary>
+        /// Checks if all the FNV DLC is installed
+        /// </summary>
+        /// <returns>Whether or not all the FNV DLC is installed</returns>
+        public static bool FNVAllDLCCheck()
+        {
+            return DMCheck() && GRACheck() && HHCheck() && LRCheck() && OWBCheck();
+        }
 
         // FNV DLC CHECK HELPERS END HERE!
+
+        /// <summary>
+        /// Uses all the helpers to check if the user is able to install TTW before installing
+        /// </summary>
+        /// <returns>Whether or not the user is able to install TTW</returns>
+        public static bool PreInstallationCheck()
+        {
+            return NVSECheck() && NVSEVersCheck() && FNVAllDLCCheck() && FO3AllDLCCheck();
+        }
         
     }
 }
