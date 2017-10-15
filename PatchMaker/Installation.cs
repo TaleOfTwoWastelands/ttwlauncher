@@ -48,7 +48,7 @@ namespace com.taleoftwowastelands.patchmaker
         /// <returns>Returns true if the user has NVSE installed, false if they don't.</returns>
         public static bool NVSECheck()
         {
-            if (!File.Exists(PathFinder(true) + "nvse_loader.exe"))
+            if (!File.Exists(PathFinder(true) + "nvse_1_4.dll"))
             {
                 MessageBox.Show("Looks like you don't have NVSE, you should really get it if you want things to work.", "WARNING", MessageBoxButtons.OK);
                 return false;
@@ -69,8 +69,9 @@ namespace com.taleoftwowastelands.patchmaker
             // long lastUpdateDate = 131421081690000000; // Friday, June 16, 2017 5:36:09pm
             // if (File.GetLastWriteTimeUtc(PathFinder(true) + "nvse_1_4.dll") < DateTime.FromFileTimeUtc(lastUpdateDate))
             
-            Version version = Version.Parse((FileVersionInfo.GetVersionInfo(PathFinder(true) + "nvse_loader.exe").FileVersion.Replace(',','.')));
-            if (version < Version.Parse("0.5.1.2"))
+            Version version = Version.Parse((FileVersionInfo.GetVersionInfo(PathFinder(true) + "nvse_1_4.dll").FileVersion.Replace(',','.')));
+            Console.WriteLine(version);
+            if (version >= Version.Parse("0.5.1.2"))
             {
                 Console.WriteLine("[Installation.cs] NVSE is up to date for this version of TTW");
                 return true;

@@ -75,12 +75,15 @@ namespace com.taleoftwowastelands.patchmaker
 
             // DEBUG SHIT ENDS HERE!
 
+            // Check to make sure the user has all the requirements for TTW
             if (!Installation.PreInstallationCheck())
             {
-                DialogResult result = MessageBox.Show("Looks like you dont have everything you need to install TTW, Make sure you have NVSE installed and up to date, and all the DLC for FNV AND FO3!", "Uh oh! Something isn't right!", MessageBoxButtons.OK);
+                DialogResult result = MessageBox.Show(String.Format("Looks like you dont have everything you need to install TTW, {0}Make sure you have NVSE installed and up to date, {0}and all the DLC for FNV AND FO3! {0}You will now be re-directed to the NVSE website to download NVSE, make sure you download the latest version!", Environment.NewLine), "Uh oh! Something isn't right!", MessageBoxButtons.OK);
+                // Wait for a response
                 if (!result.Equals(DialogResult.None))
                 {
-                    Application.Exit();
+                    Process.Start("http://nvse.silverlock.org/");
+                    Environment.Exit(1);
                 }
             }
 
